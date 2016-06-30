@@ -1,0 +1,13 @@
+language: android
+android:
+  components:
+    - build-tools-23.0.1
+    - android-23
+install:
+  - . $HOME/.nvm/nvm.sh
+  - nvm install stable
+  - nvm use stable
+  - npm install
+build:
+  - npm run test
+  - ./android/gradlew check

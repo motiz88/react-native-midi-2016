@@ -1,0 +1,4 @@
+rootProject.name = 'ReactNativeWebMidiApi'
+
+include ':app', ':javax.sound.midi-for-Android:javax.sound.midi', ':USB-MIDI-Driver:MIDIDriver'
+

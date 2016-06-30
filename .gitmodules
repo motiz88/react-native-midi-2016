@@ -1,0 +1,12 @@
+[submodule "submodules/javax.sound.midi-for-Android"]
+	path = submodules/javax.sound.midi-for-Android
+	url = https://github.com/motiz88/javax.sound.midi-for-Android.git
+[submodule "javax.sound.midi-for-Android"]
+	path = javax.sound.midi-for-Android
+	url = https://github.com/motiz88/javax.sound.midi-for-Android.git
+[submodule "android/javax.sound.midi-for-Android"]
+	path = android/javax.sound.midi-for-Android
+	url = https://github.com/motiz88/javax.sound.midi-for-Android.git
+[submodule "android/USB-MIDI-Driver"]
+	path = android/USB-MIDI-Driver
+	url = https://github.com/motiz88/USB-MIDI-Driver.git
