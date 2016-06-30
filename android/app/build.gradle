@@ -136,6 +136,11 @@ android {
     lintOptions {
       textOutput "stdout"
       textReport true
+
+      // okio-1.6.0 will cause an error like
+      // "Invalid package reference in library; not included in Android: java.nio.file. Referenced from okio.Okio."
+      // (See also: https://github.com/square/okio/issues/58 )
+      ignore 'InvalidPackage'
     }
 }
 
