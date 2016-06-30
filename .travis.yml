@@ -12,8 +12,7 @@ install:
   - nvm use stable
   - npm install
 before_install:
- - chmod +x ./android/gradlew
-  # install Android libraries
+  - chmod +x ./android/gradlew
   - echo yes | android update sdk --all --filter platform-tools --no-ui --force
   - echo yes | android update sdk --all --filter build-tools-23.0.2 --no-ui --force
   - echo yes | android update sdk --all --filter android-23 --no-ui --force
