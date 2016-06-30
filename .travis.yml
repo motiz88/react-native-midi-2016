@@ -8,6 +8,8 @@ install:
   - nvm install stable
   - nvm use stable
   - npm install
-build:
+before_install:
+ - chmod +x ./android/gradlew
+script:
   - npm run test
   - ./android/gradlew check
