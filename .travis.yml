@@ -2,12 +2,17 @@ language: android
 android:
   components:
     - build-tools-23.0.1
+    - extra-android-m2repository
     - android-23
+  licenses:
+    - android-sdk-license-.+
 install:
   - . $HOME/.nvm/nvm.sh
   - nvm install stable
   - nvm use stable
   - npm install
-build:
+before_install:
+ - chmod +x ./android/gradlew
+script:
   - npm run test
-  - ./android/gradlew check
+  - cd android && TERM=dumb ./gradlew check && cd ..
