@@ -12,4 +12,4 @@ before_install:
  - chmod +x ./android/gradlew
 script:
   - npm run test
-  - TERM=dumb ./android/gradlew check
+  - TERM=dumb cd android && ./gradlew check && cd ..
