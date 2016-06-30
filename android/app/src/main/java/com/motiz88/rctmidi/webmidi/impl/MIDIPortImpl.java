@@ -6,6 +6,7 @@ import com.motiz88.rctmidi.webmidi.MIDIPort;
 import com.motiz88.rctmidi.webmidi.impl.MIDIAccessImpl;
 import jp.kshoji.javax.sound.midi.*;
 import com.facebook.react.bridge.WritableMap;
+import java.util.Locale;
 
 abstract class MIDIPortImpl implements MIDIPort {
   private MIDIAccessImpl midiAccess;
@@ -162,9 +163,9 @@ abstract class MIDIPortImpl implements MIDIPort {
     result.putString("manufacturer", getManufacturer());
     result.putString("name", getName());
     result.putString("version", getVersion());
-    result.putString("type", getType().name().toLowerCase());
-    result.putString("state", getState().name().toLowerCase());
-    result.putString("connection", getConnection().name().toLowerCase());
+    result.putString("type", getType().name().toLowerCase(Locale.ENGLISH));
+    result.putString("state", getState().name().toLowerCase(Locale.ENGLISH));
+    result.putString("connection", getConnection().name().toLowerCase(Locale.ENGLISH));
     return result;
   }
 }

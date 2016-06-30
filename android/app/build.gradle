@@ -89,8 +89,8 @@ android {
 
     defaultConfig {
         applicationId "com.reactnativewebmidiapi"
-        minSdkVersion 16
-        targetSdkVersion 22
+        minSdkVersion 19
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
         ndk {
@@ -136,6 +136,11 @@ android {
     lintOptions {
       textOutput "stdout"
       textReport true
+
+      // okio-1.6.0 will cause an error like
+      // "Invalid package reference in library; not included in Android: java.nio.file. Referenced from okio.Okio."
+      // (See also: https://github.com/square/okio/issues/58 )
+      ignore 'InvalidPackage'
     }
 }
 

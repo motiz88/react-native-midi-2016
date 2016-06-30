@@ -12,7 +12,13 @@ install:
   - nvm use stable
   - npm install
 before_install:
- - chmod +x ./android/gradlew
+  - chmod +x ./android/gradlew
+  - echo yes | android update sdk --all --filter platform-tools --no-ui --force
+  - echo yes | android update sdk --all --filter build-tools-23.0.2 --no-ui --force
+  - echo yes | android update sdk --all --filter android-23 --no-ui --force
+  - echo yes | android update sdk --all --filter extra-android-support --no-ui --force
+  - echo yes | android update sdk --all --filter extra-android-m2repository --no-ui --force
+  - echo yes | android update sdk --all --filter addon-google_apis-google-23 --no-ui --force
 script:
   - npm run test
   - cd android && TERM=dumb ./gradlew check && cd ..
