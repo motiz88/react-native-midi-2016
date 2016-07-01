@@ -11,9 +11,11 @@ export default class MIDIInput extends MIDIPort {
   constructor (...args) {
     super(...args);
     this[priv.onmidimessage] = null;
-    DeviceEventEmitter.addListener(MidiModule.EVENT_MIDIINPUT_ONMIDIMESSAGE + this.id, ({data, timestamp}) => {
+    DeviceEventEmitter.addListener(MidiModule.EVENT_MIDIINPUT_ONMIDIMESSAGE + this.id, ({data, timeStamp}) => {
       if (typeof this.onmidimessage === 'function') {
-        this.onmidimessage(new MIDIMessageEvent(this, data, timestamp));
+        if (!(data instanceof Uint8Array))
+          data = new Uint8Array(data);
+        this.onmidimessage(new MIDIMessageEvent(this, data, timeStamp));
       }
     });
   }

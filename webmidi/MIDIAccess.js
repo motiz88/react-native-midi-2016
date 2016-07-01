@@ -13,6 +13,7 @@ import MIDIInput from './MIDIInput';
 import MIDIOutput from './MIDIOutput';
 import MIDIConnectionEvent from './MIDIConnectionEvent';
 import * as packagePrivate from './packagePrivate';
+import invariant from 'invariant';
 
 export default class MIDIAccess {
   constructor () {
@@ -20,7 +21,7 @@ export default class MIDIAccess {
     this[priv.inputsView] = new ReadOnlyMapView(this[priv.inputs]);
     this[priv.outputs] = new Map();
     this[priv.outputsView] = new ReadOnlyMapView(this[priv.outputs]);
-    this[priv.sysexEnabled] = null;
+    this[priv.sysexEnabled] = true;
     this[priv.onstatechange] = null;
   }
 
@@ -48,6 +49,9 @@ export default class MIDIAccess {
     if (data) {
       const {inputs, outputs, sysexEnabled} = data;
 
+      invariant('inputs' in data, 'data from native module does not include inputs');
+      invariant('outputs' in data, 'data from native module does not include outputs');
+
       for (const [id, input] of Object.entries(inputs)) {
         if (this[priv.inputs].has(id)) {
           this[priv.inputs].get(id)[packagePrivate.mergeData](input);
@@ -68,7 +72,7 @@ export default class MIDIAccess {
       for (const id of [...this[priv.outputs].keys()]) {
         if (!outputs[id]) this[priv.outputs].delete(id);
       }
-      this[priv.sysexEnabled] = sysexEnabled;
+      this[priv.sysexEnabled] = !!sysexEnabled;
     }
   }
 
@@ -79,7 +83,6 @@ export default class MIDIAccess {
   }
 
   [packagePrivate.receiveStateChange] (portData) {
-    console.log('MIDIAccess received statechange', portData);
     let port = portData;
     if (portData.type === 'input' && this.inputs.has(portData.id)) {
       port = this.inputs.get(portData.id);

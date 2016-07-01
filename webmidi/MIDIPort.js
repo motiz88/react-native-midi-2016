@@ -10,7 +10,7 @@ const priv = {
   midiAccess: Symbol('midiAccess')
 };
 
-import MidiModule from '../MidiModule.android';
+import MidiModule from '../MidiModule';
 import { DeviceEventEmitter } from 'react-native';
 import MIDIConnectionEvent from './MIDIConnectionEvent';
 import * as packagePrivate from './packagePrivate';
