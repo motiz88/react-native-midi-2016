@@ -77,7 +77,7 @@ describe('requestMIDIAccess', () => {
           it('should fire when a message is received', async () => {
             in1.onmidimessage = handler;
             await turn();
-            
+
             MidiModule.mock.sendToInput('in1', [0x90, 0x00], 10);
             handler.should.have.been.calledOnce;
             const event = handler.firstCall.args[0];
