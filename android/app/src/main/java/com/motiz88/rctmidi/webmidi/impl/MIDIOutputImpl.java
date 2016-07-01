@@ -37,7 +37,7 @@ class MIDIOutputImpl extends MIDIPortImpl implements MIDIOutput {
     setId(Devices.idAsOutput(this.getDevice()));
   }
 
-  Receiver receiver;
+  private Receiver receiver;
 
   @Override
   protected void openDirectionalPort() throws MidiUnavailableException {

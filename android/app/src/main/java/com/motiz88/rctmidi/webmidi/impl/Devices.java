@@ -2,7 +2,7 @@ package com.motiz88.rctmidi.webmidi.impl;
 import jp.kshoji.javax.sound.midi.*;
 
 class Devices {
-  static MidiDevice getMidiDevice(MidiDevice.Info info) {
+  private static MidiDevice getMidiDevice(MidiDevice.Info info) {
     try {
       return MidiSystem.getMidiDevice(info);
     }

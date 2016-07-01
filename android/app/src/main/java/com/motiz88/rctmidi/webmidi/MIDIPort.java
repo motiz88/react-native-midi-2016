@@ -1,6 +1,5 @@
 package com.motiz88.rctmidi.webmidi;
 
-import com.facebook.react.bridge.WritableMap;
 import com.motiz88.rctmidi.Writable;
 import com.motiz88.rctmidi.webmidi.events.*;
 import com.motiz88.rctmidi.webmidi.errors.*;

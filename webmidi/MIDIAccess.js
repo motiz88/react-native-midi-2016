@@ -46,7 +46,6 @@ export default class MIDIAccess {
 
   [packagePrivate.mergeData] (data) {
     if (data) {
-      console.log(data);
       const {inputs, outputs, sysexEnabled} = data;
 
       for (const [id, input] of Object.entries(inputs)) {

@@ -23,7 +23,6 @@ export default class MIDIInput extends MIDIPort {
   }
 
   set onmidimessage (handler) {
-    console.log('onmidimessage = ', handler);
     this[priv.onmidimessage] = handler;
     const attach = typeof handler === 'function';
     MidiModule.MIDIInput_setOnMidiMessage(this.id, attach);

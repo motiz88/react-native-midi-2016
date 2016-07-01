@@ -161,7 +161,7 @@ task copyDownloadableDepsToLibs(type: Copy) {
 /* For kshoji's javax.sound.midi implementation, USB MIDI driver, BLE MIDI driver */
 
 repositories {
-    maven { url 'https://github.com/kshoji/javax.sound.midi-for-Android/raw/master/javax.sound.midi/repository' }    
+    maven { url 'https://github.com/kshoji/javax.sound.midi-for-Android/raw/master/javax.sound.midi/repository' }
     maven { url 'https://github.com/kshoji/USB-MIDI-Driver/raw/master/MIDIDriver/snapshots' }
     maven { url 'https://github.com/kshoji/BLE-MIDI-for-Android/raw/master/library/repository' }
     maven { url "https://jitpack.io" }
@@ -180,7 +180,7 @@ dependencies {
     compile project(':USB-MIDI-Driver:MIDIDriver')
 
     // check the latest release version with https://github.com/kshoji/BLE-MIDI-for-Android/releases/latest
-    compile 'jp.kshoji:ble-midi:0.0.9:@aar'    
+    compile 'jp.kshoji:ble-midi:0.0.9:@aar'
 }
 
 task writeClasspath << {

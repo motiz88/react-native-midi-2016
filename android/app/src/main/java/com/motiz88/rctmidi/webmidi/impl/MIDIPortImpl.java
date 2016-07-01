@@ -13,6 +13,13 @@ abstract class MIDIPortImpl implements MIDIPort {
   private MidiDevice.Info deviceInfo;
   private MidiDevice device;
 
+  private String id;
+  private String manufacturer;
+  private String name;
+  private String version;
+  private MIDIPort.State state = State.DISCONNECTED;
+  private MIDIPort.ConnectionState connection = ConnectionState.CLOSED;
+
   protected MIDIAccessImpl getMIDIAccess() {
     return midiAccess;
   }
@@ -36,14 +43,6 @@ abstract class MIDIPortImpl implements MIDIPort {
     setVersion(deviceInfo.getVersion());
   }
 
-  private String id;
-  private String manufacturer;
-  private String name;
-  private String version;
-  private MIDIPort.State state = State.DISCONNECTED;
-  private MIDIPort.ConnectionState connection = ConnectionState.CLOSED;
-
-  
   @Override
   public String getId() { return id; }
   protected void setId(String value) { id = value; }
