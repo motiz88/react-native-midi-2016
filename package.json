@@ -3,11 +3,10 @@
   "version": "0.0.1",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "npm run test:js && npm run eslint && npm run coverage:coveralls && npm run coverage:codecov",
+    "test": "npm run test:js && npm run eslint && npm run coverage:codecov",
     "eslint": "eslint *.js webmidi test",
     "test:js": "cross-env NODE_ENV=test nyc --silent mocha",
     "test:js-fast": "mocha",
-    "coverage:coveralls": "nyc report --reporter=text-lcov | coveralls",
     "coverage:codecov": "nyc report --reporter=text-lcov > coverage.lcov",
     "coverage:html": "nyc report --reporter=html"
   },
@@ -34,7 +33,6 @@
     "babel-register": "^6.9.0",
     "chai": "^3.5.0",
     "chai-deep-match": "^1.0.2",
-    "coveralls": "^2.11.9",
     "cross-env": "^1.0.8",
     "deep-equal": "^1.0.1",
     "eslint": "^2.13.1",
