@@ -135,6 +135,20 @@ describe('requestMIDIAccess', () => {
             out1.connection.should.equal('open');
           });
         });
+        describe('#clear', () => {
+          beforeEach(() => {
+            spy(MidiModule, 'MIDIOutput_clear');
+          });
+          afterEach(() => {
+            MidiModule.MIDIOutput_clear.restore();
+          });
+          it('should delegate to native module', async () => {
+            out1.clear();
+            await turn();
+            MidiModule.MIDIOutput_clear.should.have.been.calledOnce
+              .and.calledWithExactly('out1');
+          });
+        });
       });
     });
     describe('#sysexEnabled', () => {
