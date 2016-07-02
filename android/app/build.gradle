@@ -128,14 +128,11 @@ android {
         }
     }
 
-    // compileOptions {
-    //     sourceCompatibility JavaVersion.VERSION_1_8
-    //     targetCompatibility JavaVersion.VERSION_1_8
-    // }    
-
     lintOptions {
       textOutput "stdout"
       textReport true
+      quiet false
+      noLines false
 
       // okio-1.6.0 will cause an error like
       // "Invalid package reference in library; not included in Android: java.nio.file. Referenced from okio.Okio."
@@ -157,30 +154,8 @@ task copyDownloadableDepsToLibs(type: Copy) {
   into 'libs'
 }
 
-
-/* For kshoji's javax.sound.midi implementation, USB MIDI driver, BLE MIDI driver */
-
-repositories {
-    maven { url 'https://github.com/kshoji/javax.sound.midi-for-Android/raw/master/javax.sound.midi/repository' }
-    maven { url 'https://github.com/kshoji/USB-MIDI-Driver/raw/master/MIDIDriver/snapshots' }
-    maven { url 'https://github.com/kshoji/BLE-MIDI-for-Android/raw/master/library/repository' }
-    maven { url "https://jitpack.io" }
-
-    mavenCentral()
-}
-
 dependencies {
-    // check the latest release version with https://github.com/kshoji/javax.sound.midi-for-Android/releases/latest
-    // compile 'jp.kshoji:javax-sound-midi:0.0.3:@aar'
-    //compile 'com.github.motiz88:javax.sound.midi-for-Android:develop-SNAPSHOT'
-    compile project(':javax.sound.midi-for-Android:javax.sound.midi')
-
-    // check the latest release version with https://github.com/kshoji/USB-MIDI-Driver/releases/latest
-    //compile 'jp.kshoji:midi-driver:0.1.4:@aar'
-    compile project(':USB-MIDI-Driver:MIDIDriver')
-
-    // check the latest release version with https://github.com/kshoji/BLE-MIDI-for-Android/releases/latest
-    compile 'jp.kshoji:ble-midi:0.0.9:@aar'
+    compile(project(':react-native-midi')) { transitive=true }
 }
 
 task writeClasspath << {
