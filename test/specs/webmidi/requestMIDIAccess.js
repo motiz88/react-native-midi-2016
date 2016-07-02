@@ -3,6 +3,27 @@ import { expect } from 'chai';
 import MidiModule from '../../mocks/MidiModule';
 import { spy } from 'sinon';
 
+const portInit = {
+  in1: {
+    type: 'input',
+    id: 'in1',
+    manufacturer: 'motiz88',
+    state: 'connected',
+    connection: 'closed',
+    name: 'Input 1',
+    version: '1.2.3'
+  },
+  out1: {
+    type: 'output',
+    id: 'out1',
+    manufacturer: 'motiz88',
+    state: 'connected',
+    connection: 'closed',
+    name: 'Output 1',
+    version: '1.2.3'
+  }
+};
+
 describe('requestMIDIAccess', () => {
   it('should exist', () => {
     expect(requestMIDIAccess).to.be.a('function');
@@ -11,24 +32,8 @@ describe('requestMIDIAccess', () => {
     let midiAccess;
     beforeEach(async () => {
       MidiModule.mock.reset();
-      MidiModule.mock.data.inputs.in1 = {
-        type: 'input',
-        id: 'in1',
-        manufacturer: 'motiz88',
-        state: 'connected',
-        connection: 'closed',
-        name: 'Input 1',
-        version: '1.2.3'
-      };
-      MidiModule.mock.data.outputs.out1 = {
-        type: 'output',
-        id: 'out1',
-        manufacturer: 'motiz88',
-        state: 'connected',
-        connection: 'closed',
-        name: 'Output 1',
-        version: '1.2.3'
-      };
+      MidiModule.mock.data.inputs.in1 = portInit.in1;
+      MidiModule.mock.data.outputs.out1 = portInit.out1;
       midiAccess = await requestMIDIAccess();
     });
     describe('#inputs', () => {
@@ -160,11 +165,16 @@ describe('requestMIDIAccess', () => {
       });
     });
     describe('#onstatechange', () => {
-      let handler;
-      beforeEach(() => {
+      let handler, in1Handler, out1Handler;
+      beforeEach(async () => {
         handler = spy();
+        in1Handler = spy();
+        out1Handler = spy();
+        midiAccess.inputs.get('in1').onstatechange = in1Handler;
+        midiAccess.outputs.get('out1').onstatechange = out1Handler;
         midiAccess.should.have.property('onstatechange'); // even before we set it
         midiAccess.onstatechange = handler;
+        await turn();
       });
       it('should exist and can be changed', () => {
         midiAccess.should.have.property('onstatechange', handler);
@@ -174,14 +184,47 @@ describe('requestMIDIAccess', () => {
           MidiModule.mock.mergePort('in1', { state: 'disconnected' });
           await turn();
         });
-        it('should be fired', async () => {
+        it('should be fired', () => {
           handler.should.have.been.calledOnce;
-        });
-        it('should receive a MIDIConnectionEvent', async () => {
           const event = handler.firstCall.args[0];
           assertEventObject(event);
           event.type.should.equal('statechange');
           event.port.should.equal(midiAccess.inputs.get('in1'));
+        });
+        it('should be fired on input port', () => {
+          in1Handler.should.have.been.calledOnce;
+          out1Handler.should.not.have.been.called;
+          const event = in1Handler.firstCall.args[0];
+          assertEventObject(event);
+          event.type.should.equal('statechange');
+          event.port.should.equal(midiAccess.inputs.get('in1'));
+        });
+      });
+      describe('when an input is removed', () => {
+        beforeEach(async () => {
+          MidiModule.mock.mergePort('in1', undefined);
+          await turn();
+        });
+        afterEach(async () => {
+          MidiModule.mock.mergeOrAddPort('in1', portInit.in1);
+          await turn();
+        });
+        it('should be fired', async () => {
+          handler.should.have.been.calledOnce;
+          const event = handler.firstCall.args[0];
+          assertEventObject(event);
+          event.type.should.equal('statechange');
+          event.port.should.deep.match({id: 'in1'});
+        });
+        it('should be fired on input port', async () => {
+          in1Handler.should.have.been.calledOnce;
+          const event = in1Handler.firstCall.args[0];
+          assertEventObject(event);
+          event.type.should.equal('statechange');
+          event.port.should.deep.match({id: 'in1'});
+        });
+        it('the port should disappear from .inputs', () => {
+          midiAccess.inputs.has('in1').should.be.false;
         });
       });
       describe('when an output changes state', () => {
@@ -191,12 +234,45 @@ describe('requestMIDIAccess', () => {
         });
         it('should be fired', async () => {
           handler.should.have.been.calledOnce;
-        });
-        it('should receive a MIDIConnectionEvent', async () => {
           const event = handler.firstCall.args[0];
           assertEventObject(event);
           event.type.should.equal('statechange');
           event.port.should.equal(midiAccess.outputs.get('out1'));
+        });
+        it('should be fired on output port', () => {
+          out1Handler.should.have.been.calledOnce;
+          in1Handler.should.not.have.been.called;
+          const event = out1Handler.firstCall.args[0];
+          assertEventObject(event);
+          event.type.should.equal('statechange');
+          event.port.should.equal(midiAccess.outputs.get('out1'));
+        });
+      });
+      describe('when an output is removed', () => {
+        beforeEach(async () => {
+          MidiModule.mock.mergePort('out1', undefined);
+          await turn();
+        });
+        afterEach(async () => {
+          MidiModule.mock.mergeOrAddPort('out1', portInit.out1);
+          await turn();
+        });
+        it('should be fired', async () => {
+          handler.should.have.been.calledOnce;
+          const event = handler.firstCall.args[0];
+          assertEventObject(event);
+          event.type.should.equal('statechange');
+          event.port.should.deep.match({id: 'out1'});
+        });
+        it('should be fired on output port', async () => {
+          out1Handler.should.have.been.calledOnce;
+          const event = out1Handler.firstCall.args[0];
+          assertEventObject(event);
+          event.type.should.equal('statechange');
+          event.port.should.deep.match({id: 'out1'});
+        });
+        it('the port should disappear from .outputs', () => {
+          midiAccess.outputs.has('out1').should.be.false;
         });
       });
     });
@@ -222,6 +298,7 @@ function assertReadonlyMaplike (object) {
   expect(() => {
     object.remove('dummy');
   }).to.throw;
+
   // Let's just call these functions to make sure they're safe.
   object.entries();
   object.keys();

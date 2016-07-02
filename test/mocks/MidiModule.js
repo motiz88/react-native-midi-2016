@@ -18,7 +18,6 @@ class MidiModuleMockDriver {
 
   reset (resetData) {
     this.data = {...(resetData || this._initialData)};
-    this.eventsAttached = {};
   }
 
   getPortType (id) {
@@ -35,7 +34,6 @@ class MidiModuleMockDriver {
   }
 
   setData (data) {
-    // const modified = !deepEqual(this.data, data);
     this.data = data;
   }
 
@@ -45,10 +43,12 @@ class MidiModuleMockDriver {
     }
   }
 
-  mergePort (id, newPort) {
-    const collection = this.getPortType(id) + 's';
+  mergeOrAddPort (id, newPort, type) {
+    const collection = (type || newPort.type) + 's';
     const port = this.data[collection][id] || {};
-    newPort = {...port, ...newPort};
+    if (newPort) {
+      newPort = {...port, ...newPort};
+    }
     const portModified = !deepEqual(port, newPort);
     this.setData({
       ...this.data,
@@ -58,10 +58,15 @@ class MidiModuleMockDriver {
       }
     });
     if (portModified) {
-      this.emitIfAttached(EVENT_MIDIACCESS_ONSTATECHANGE, newPort);
-      this.emitIfAttached(EVENT_MIDIPORT_ONSTATECHANGE + id, newPort);
+      this.emitIfAttached(EVENT_MIDIACCESS_ONSTATECHANGE, newPort || port);
+      this.emitIfAttached(EVENT_MIDIPORT_ONSTATECHANGE + id, newPort || port);
     }
     return this.data[collection][id];
+  }
+
+  mergePort (id, newPort) {
+    const type = this.getPortType(id);
+    return this.mergeOrAddPort(id, newPort, type);
   }
 
   async sendToInput (id, data, timeStamp = undefined) {
@@ -110,6 +115,10 @@ class MidiModuleMock {
 
   async MIDIOutput_send (id, data, timestamp) {
     await this.MIDIPort_open(id);
+  }
+
+  async MIDIOutput_clear (id) {
+
   }
 }
 
