@@ -22,3 +22,5 @@ before_install:
 script:
   - npm run test
   - cd android && TERM=dumb ./gradlew check && cd ..
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

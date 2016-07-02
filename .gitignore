@@ -46,3 +46,7 @@ log.txt
 .vscode/typings
 .vscode/launchReactNative.js
 .vscode/GitHubIssue
+
+coverage
+.nyc_output
+*.lcov
