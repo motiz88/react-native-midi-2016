@@ -22,6 +22,6 @@ before_install:
 script:
   - npm run test
   - cd android && TERM=dumb ./gradlew :react-native-midi:check && cd ..
-  - cd android && TERM=dumb ./gradlew :app:assemble && cd ..
+  - cd android && TERM=dumb ./gradlew :app:build && cd ..
 after_success:
   - bash <(curl -s https://codecov.io/bash)
