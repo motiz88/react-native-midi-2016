@@ -222,6 +222,12 @@ function assertReadonlyMaplike (object) {
   expect(() => {
     object.remove('dummy');
   }).to.throw;
+  // Let's just call these functions to make sure they're safe.
+  object.entries();
+  object.keys();
+  object.values();
+  for (/*eslint no-unused-vars: 0*/ const a of object) {}
+  object.forEach(() => {});
 }
 
 function testMIDIPortCommon (getPort) {
