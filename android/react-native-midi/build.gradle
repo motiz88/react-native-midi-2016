@@ -91,6 +91,9 @@ dependencies {
 
     // check the latest release version with https://github.com/kshoji/BLE-MIDI-for-Android/releases/latest
     compile 'jp.kshoji:ble-midi:0.0.9:@aar'
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.10.19'
 }
 
 task writeClasspath << {
