@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "npm run test:js && npm run eslint && coverage:coveralls && coverage:codecov",
+    "test": "npm run test:js && npm run eslint && npm run coverage:coveralls && npm run coverage:codecov",
     "eslint": "eslint *.js webmidi test",
     "test:js": "cross-env NODE_ENV=test nyc --silent mocha",
     "test:js-fast": "mocha",
