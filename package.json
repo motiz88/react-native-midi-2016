@@ -17,7 +17,7 @@
     "es6-symbol": "^3.1.0",
     "events": "^1.1.1",
     "invariant": "^2.2.1",
-    "react": "15.1.0",
+    "react": "15.2.0",
     "react-native": "0.28.0"
   },
   "devDependencies": {
@@ -35,7 +35,7 @@
     "chai-deep-match": "^1.0.2",
     "cross-env": "^1.0.8",
     "deep-equal": "^1.0.1",
-    "eslint": "^2.13.1",
+    "eslint": "^3.0.0",
     "eslint-config-semistandard": "^6.0.2",
     "eslint-config-standard": "^5.3.1",
     "eslint-plugin-babel": "^3.3.0",
