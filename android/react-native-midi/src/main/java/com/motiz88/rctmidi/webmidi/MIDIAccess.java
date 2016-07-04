@@ -2,9 +2,7 @@ package com.motiz88.rctmidi.webmidi;
 
 import java.util.*;
 import com.motiz88.rctmidi.Writable;
-import com.motiz88.rctmidi.MapWriter;
 import com.motiz88.rctmidi.webmidi.events.*;
-import com.facebook.react.bridge.WritableMap;
 
 public interface MIDIAccess extends Writable, StateChangeEmitter {
   public Map<String, MIDIInput> getInputs();

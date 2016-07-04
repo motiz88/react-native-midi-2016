@@ -1,6 +1,5 @@
 package com.motiz88.rctmidi;
 
-import java.lang.Class;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

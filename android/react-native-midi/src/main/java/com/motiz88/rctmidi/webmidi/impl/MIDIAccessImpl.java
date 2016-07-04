@@ -12,7 +12,7 @@ import android.support.annotation.*;
 import com.facebook.react.bridge.WritableMap;
 
 public final class MIDIAccessImpl implements MIDIAccess, AutoCloseable, OnMidiDeviceAttachedListener, OnMidiDeviceDetachedListener {
-  private final HashMap<String, MIDIInput> inputs = new HashMap(); 
+  private final HashMap<String, MIDIInput> inputs = new HashMap();
   private final HashMap<String, MIDIOutput> outputs = new HashMap();
   private boolean sysexEnabled;
 
@@ -23,7 +23,11 @@ public final class MIDIAccessImpl implements MIDIAccess, AutoCloseable, OnMidiDe
   private BleMidiSystem bleMidiSystem;
 
   private final HashMap<String, MIDIPortImpl> allPorts = new HashMap(); // We never remove ports from this collection
-  private final Map<String, MIDIPortImpl> allPortsView = Collections.unmodifiableMap(allPorts); 
+  private final Map<String, MIDIPortImpl> allPortsView = Collections.unmodifiableMap(allPorts);
+
+  private final HashMap<MidiDevice.Info, DeviceLookupRecord> devices = new HashMap();
+
+  private StateChangeListener stateChangeListener;
 
   private class DeviceLookupRecord {
     @Nullable
@@ -39,8 +43,6 @@ public final class MIDIAccessImpl implements MIDIAccess, AutoCloseable, OnMidiDe
         output = (MIDIOutputImpl) outputs.get(outputId);
     }
   }
-
-  private final HashMap<MidiDevice.Info, DeviceLookupRecord> devices = new HashMap(); 
 
   public MIDIAccessImpl(Context context, MIDIOptions options) throws InvalidStateError {
     open(context, options);
@@ -105,8 +107,6 @@ public final class MIDIAccessImpl implements MIDIAccess, AutoCloseable, OnMidiDe
     return allPortsView;
   }
 
-  private StateChangeListener stateChangeListener;
-
   void emitStateChange(MIDIPort changedPort) {
     if (stateChangeListener != null)
       stateChangeListener.onStateChange(changedPort);
@@ -121,15 +121,15 @@ public final class MIDIAccessImpl implements MIDIAccess, AutoCloseable, OnMidiDe
     MIDIInputImpl inputPort = null;
     MIDIOutputImpl outputPort = null;
     if (Devices.isInput(info))
-      inputPort = new MIDIInputImpl(info, this);     
+      inputPort = new MIDIInputImpl(info, this);
     if (Devices.isOutput(info))
       outputPort = new MIDIOutputImpl(info, this);
-    if (inputPort != null) {    
+    if (inputPort != null) {
       inputs.put(inputPort.getId(), inputPort);
       allPorts.put(inputPort.getId(), inputPort);
       inputPort.onConnected(); // Also triggers MIDIAccess.statechange
     }
-    if (outputPort != null) { 
+    if (outputPort != null) {
       outputs.put(outputPort.getId(), outputPort);
       allPorts.put(inputPort.getId(), inputPort);
       outputPort.onConnected(); // Also triggers MIDIAccess.statechange
@@ -142,14 +142,14 @@ public final class MIDIAccessImpl implements MIDIAccess, AutoCloseable, OnMidiDe
   private void removeDevice(MidiDevice.Info info) {
     DeviceLookupRecord device = devices.get(info);
     if (device != null) {
-      devices.remove(info);      
+      devices.remove(info);
       if (device.input != null) {
         inputs.remove(device.input.getId());
-        device.input.onDisconnected(); // Also triggers MIDIAccess.statechange        
+        device.input.onDisconnected(); // Also triggers MIDIAccess.statechange
       }
       if (device.output != null) {
         outputs.remove(device.output.getId());
-        device.output.onDisconnected(); // Also triggers MIDIAccess.statechange        
+        device.output.onDisconnected(); // Also triggers MIDIAccess.statechange
       }
     }
   }

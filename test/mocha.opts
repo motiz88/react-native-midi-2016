@@ -1,0 +1,5 @@
+--compilers js:babel-register
+--require babel-polyfill
+--require ./test/setup.js
+--require mocha-clean
+test/specs/**/*.js
