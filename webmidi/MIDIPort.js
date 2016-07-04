@@ -10,7 +10,7 @@ const priv = {
   midiAccess: Symbol('midiAccess')
 };
 
-import MidiModule from '../MidiModule.android';
+import MidiModule from '../MidiModule';
 import { DeviceEventEmitter } from 'react-native';
 import MIDIConnectionEvent from './MIDIConnectionEvent';
 import * as packagePrivate from './packagePrivate';
@@ -28,7 +28,6 @@ export default class MIDIPort {
     this[packagePrivate.mergeData](data);
 
     DeviceEventEmitter.addListener(MidiModule.EVENT_MIDIPORT_ONSTATECHANGE + this.id, eventData => {
-      console.log('MIDIPort received statechange', eventData);
       this[packagePrivate.mergeData](eventData);
       if (typeof this.onstatechange === 'function') {
         this.onstatechange(new MIDIConnectionEvent(midiAccess, this));

@@ -1,6 +1,6 @@
 package com.motiz88.rctmidi.webmidi.impl;
 
-import com.motiz88.rctmidi.webmidi.events.MIDIMessageListener; 
+import com.motiz88.rctmidi.webmidi.events.MIDIMessageListener;
 import com.motiz88.rctmidi.webmidi.MIDIInput;
 import com.motiz88.rctmidi.webmidi.errors.*;
 import com.motiz88.rctmidi.webmidi.MIDIPort;
@@ -8,15 +8,17 @@ import com.motiz88.rctmidi.webmidi.impl.MIDIPortImpl;
 import jp.kshoji.javax.sound.midi.*;
 
 class MIDIInputImpl extends MIDIPortImpl implements MIDIInput {
+  private Transmitter transmitter = null;
+
   @Override
   public final MIDIPort.Type getType() {
     return Type.INPUT;
   }
 
-  MIDIMessageListener midiMessageListener;
-  Receiver receiver = new Receiver() {
+  private MIDIMessageListener midiMessageListener;
+  private final Receiver receiver = new Receiver() {
     @Override
-    public void close() {}
+    public void close() { /* nothing to do */ }
 
     @Override
     public void send(MidiMessage message, long timestampMicros) {
@@ -31,7 +33,7 @@ class MIDIInputImpl extends MIDIPortImpl implements MIDIInput {
   public void setOnMIDIMessage(MIDIMessageListener listener) throws InvalidAccessError, InvalidStateError {
     android.util.Log.d("MIDIInputImpl", "setOnMIDIMessage");
     android.util.Log.d("MIDIInputImpl", (listener != null) ? "got listener" : "listener == null");
-    Receiver targetReceiver = (midiMessageListener != null) ? receiver : null; 
+    Receiver targetReceiver = (midiMessageListener != null) ? receiver : null;
     if ((midiMessageListener == listener) && (transmitter != null) && (transmitter.getReceiver() == targetReceiver)) {
       android.util.Log.d("MIDIInputImpl", "nothing to do for setOnMIDIMessage");
       return;
@@ -49,8 +51,6 @@ class MIDIInputImpl extends MIDIPortImpl implements MIDIInput {
     super(deviceInfo, access);
     setId(Devices.idAsInput(this.getDevice()));
   }
-
-  Transmitter transmitter = null;
 
   @Override
   protected void openDirectionalPort() throws MidiUnavailableException {
@@ -72,5 +72,5 @@ class MIDIInputImpl extends MIDIPortImpl implements MIDIInput {
       android.util.Log.d("MIDIInputImpl", "closeDirectionalPort(): already closed");
     transmitter = null;
   }
- 
+
 }

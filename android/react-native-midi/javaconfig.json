@@ -1,0 +1,5 @@
+{
+    "sourcePath": ["src/main/java"],
+    "classPathFile": "build/classpath.txt",
+    "outputDirectory": "build/generated"
+}

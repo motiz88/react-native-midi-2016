@@ -12,6 +12,7 @@
       "new-cap": 0,
       "babel/func-params-comma-dangle": [2, "never"],
       "no-var": "error",
-      "prefer-const": "error"
+      "prefer-const": "error",
+      "no-console": "error"
   }
 }

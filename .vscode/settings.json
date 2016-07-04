@@ -2,6 +2,7 @@
     // Configure glob patterns for excluding files and folders.
     "files.exclude": {
         "node_modules*": true,
-        "javac-services.*.log*": true
+        "javac-services.*.log*": true,
+        "**/.idea": true
     }
 }

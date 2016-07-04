@@ -16,7 +16,7 @@ export default class MIDIMessageEvent extends Event {
       returnValue: true,
       srcElement: port,
       target: port,
-      timeStamp: Date.now()
+      timeStamp: receivedTime
     });
   }
 }

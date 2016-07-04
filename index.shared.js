@@ -46,10 +46,8 @@ class ReactNativeWebMidiApi extends Component {
   async initializeMidi () {
     const midi = await navigator.requestMIDIAccess();
     const updateDevices = (port) => {
-      if (port) console.log(port);
       const { inputs, outputs } = midi;
       inputs.forEach(port => {
-        console.log('(MIDI Input) id:', port.id, 'manufacturer:', port.manufacturer, 'name:', port.name, 'version:', port.version);
         port.onmidimessage = this.handleMidiMessage(port);
       });
       this.setState({ inputs, outputs });

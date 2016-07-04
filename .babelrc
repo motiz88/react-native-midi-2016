@@ -4,6 +4,10 @@
   "env": {
     "development": {
       "sourceMaps": "both"
+    },
+    "test": {
+      "sourceMaps": "both",
+      "plugins": ["istanbul"]
     }
   } 
 }
