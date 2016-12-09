@@ -11,7 +11,7 @@
     "coverage:html": "nyc report --reporter=html"
   },
   "dependencies": {
-    "babel-runtime": "^6.9.2",
+    "babel-runtime": "^6.20.0",
     "core-js": "^2.4.0",
     "es6-error": "^3.0.0",
     "es6-symbol": "^3.1.0",
