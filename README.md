@@ -1,4 +1,6 @@
 # react-native-midi
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/motiz88/react-native-midi.svg)](https://greenkeeper.io/)
 [![travis][travis-image]][travis-url]
 [![js-semistandard-style][semistandard-image]][semistandard-url]
 [![MIT License][license-image]][license-url]
