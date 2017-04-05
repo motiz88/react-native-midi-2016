@@ -42,7 +42,7 @@
     "eslint-plugin-mocha": "^4.0.0",
     "eslint-plugin-promise": "^2.0.0",
     "eslint-plugin-react": "^5.2.2",
-    "eslint-plugin-standard": "^2.0.0",
+    "eslint-plugin-standard": "^2.2.0",
     "mocha": "^2.5.3",
     "mocha-clean": "^1.0.0",
     "mockery": "^1.7.0",
